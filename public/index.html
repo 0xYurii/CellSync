@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>CellSync - Full CRUD Test</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>📱 CellSync CRUD Manager</h1>
+                <p>Complete Create, Read, Update, Delete Operations</p>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="showTab('create')">
+                    ➕ Create
+                </button>
+                <button class="tab" onclick="showTab('read')">
+                    📋 Read All
+                </button>
+                <button class="tab" onclick="showTab('search')">
+                    🔍 Search
+                </button>
+                <button class="tab" onclick="showTab('update')">
+                    ✏️ Update
+                </button>
+                <button class="tab" onclick="showTab('delete')">
+                    🗑️ Delete
+                </button>
+                <button class="tab" onclick="showTab('api')">
+                    🔗 API Docs
+                </button>
+            </div>
+
+            <div class="content">
+                <!-- CREATE TAB -->
+                <div id="create" class="tab-content active">
+                    <h2>➕ Create New Phone</h2>
+                    <form id="createForm">
+                        <div class="form-group">
+                            <label for="create_name">Phone Name:</label>
+                            <input
+                                type="text"
+                                id="create_name"
+                                required
+                                placeholder="e.g., iPhone 15 Plus"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="create_brand">Brand:</label>
+                            <input
+                                type="text"
+                                id="create_brand"
+                                required
+                                placeholder="e.g., Apple"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="create_price">Price ($):</label>
+                            <input
+                                type="number"
+                                id="create_price"
+                                step="0.01"
+                                required
+                                placeholder="e.g., 899.99"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="create_stock">Stock Quantity:</label>
+                            <input
+                                type="number"
+                                id="create_stock"
+                                required
+                                placeholder="e.g., 15"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="create_color">Color:</label>
+                            <input
+                                type="text"
+                                id="create_color"
+                                required
+                                placeholder="e.g., Blue"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="create_storage">Storage:</label>
+                            <input
+                                type="text"
+                                id="create_storage"
+                                required
+                                placeholder="e.g., 256GB"
+                            />
+                        </div>
+                        <button type="submit">Add Phone</button>
+                    </form>
+                    <div id="create_response" class="response"></div>
+                </div>
+
+                <!-- READ ALL TAB -->
+                <div id="read" class="tab-content">
+                    <h2>📋 All Phones</h2>
+                    <button onclick="loadAllPhones()" class="btn-success">
+                        🔄 Refresh List
+                    </button>
+                    <div class="loader" id="read_loader"></div>
+                    <div id="phones_list" class="phone-list"></div>
+                    <div id="read_response" class="response"></div>
+                </div>
+
+                <!-- SEARCH TAB -->
+                <div id="search" class="tab-content">
+                    <h2>🔍 Search Phones</h2>
+                    <form id="searchForm">
+                        <div class="search-filters">
+                            <div class="form-group">
+                                <label for="search_brand">Brand:</label>
+                                <input
+                                    type="text"
+                                    id="search_brand"
+                                    placeholder="e.g., Apple"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="search_minPrice">Min Price:</label>
+                                <input
+                                    type="number"
+                                    id="search_minPrice"
+                                    step="0.01"
+                                    placeholder="e.g., 500"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="search_maxPrice">Max Price:</label>
+                                <input
+                                    type="number"
+                                    id="search_maxPrice"
+                                    step="0.01"
+                                    placeholder="e.g., 1000"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="search_storage">Storage:</label>
+                                <input
+                                    type="text"
+                                    id="search_storage"
+                                    placeholder="e.g., 256GB"
+                                />
+                            </div>
+                        </div>
+                        <button type="submit">Search</button>
+                    </form>
+                    <div class="loader" id="search_loader"></div>
+                    <div id="search_results" class="phone-list"></div>
+                    <div id="search_response" class="response"></div>
+                </div>
+
+                <!-- UPDATE TAB -->
+                <div id="update" class="tab-content">
+                    <h2>✏️ Update Phone</h2>
+                    <div class="form-group">
+                        <label for="update_id">Phone ID:</label>
+                        <input
+                            type="number"
+                            id="update_id"
+                            required
+                            placeholder="Enter phone ID"
+                        />
+                        <button
+                            onclick="loadPhoneForUpdate()"
+                            style="margin-top: 10px"
+                            class="btn-warning"
+                        >
+                            Load Phone Data
+                        </button>
+                    </div>
+                    <div class="loader" id="update_loader"></div>
+                    <form id="updateForm" style="display: none">
+                        <div class="form-group">
+                            <label for="update_name">Phone Name:</label>
+                            <input type="text" id="update_name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="update_brand">Brand:</label>
+                            <input type="text" id="update_brand" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="update_price">Price ($):</label>
+                            <input
+                                type="number"
+                                id="update_price"
+                                step="0.01"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="update_stock">Stock Quantity:</label>
+                            <input type="number" id="update_stock" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="update_color">Color:</label>
+                            <input type="text" id="update_color" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="update_storage">Storage:</label>
+                            <input type="text" id="update_storage" required />
+                        </div>
+                        <button type="submit">Update Phone</button>
+                    </form>
+                    <div id="update_response" class="response"></div>
+                </div>
+
+                <!-- DELETE TAB -->
+                <div id="delete" class="tab-content">
+                    <h2>🗑️ Delete Phone</h2>
+                    <div class="form-group">
+                        <label for="delete_id">Phone ID:</label>
+                        <input
+                            type="number"
+                            id="delete_id"
+                            required
+                            placeholder="Enter phone ID to delete"
+                        />
+                        <button
+                            onclick="loadPhoneForDelete()"
+                            style="margin-top: 10px"
+                            class="btn-warning"
+                        >
+                            Preview Phone
+                        </button>
+                    </div>
+                    <div class="loader" id="delete_loader"></div>
+                    <div id="delete_preview"></div>
+                    <div id="delete_response" class="response"></div>
+                </div>
+
+                <!-- API DOCS TAB -->
+                <div id="api" class="tab-content">
+                    <h2>🔗 API Documentation</h2>
+                    <div class="links">
+                        <h3>📋 READ Operations</h3>
+                        <a href="/phones" target="_blank"
+                            >GET /phones - Get all phones</a
+                        >
+                        <a href="/phones/1" target="_blank"
+                            >GET /phones/:id - Get phone by ID (example: ID
+                            1)</a
+                        >
+                        <a href="/phones/search?brand=Apple" target="_blank"
+                            >GET /phones/search?brand=Apple - Search by brand</a
+                        >
+                        <a
+                            href="/phones/search?minPrice=500&maxPrice=800"
+                            target="_blank"
+                            >GET /phones/search?minPrice=500&maxPrice=800 -
+                            Search by price range</a
+                        >
+                        <a href="/phones/search?storage=256GB" target="_blank"
+                            >GET /phones/search?storage=256GB - Search by
+                            storage</a
+                        >
+
+                        <h3 style="margin-top: 20px">➕ CREATE Operation</h3>
+                        <p
+                            style="
+                                padding: 12px;
+                                background: white;
+                                border-radius: 6px;
+                                border: 2px solid #e0e0e0;
+                                color: #333;
+                            "
+                        >
+                            <strong>POST /phones/insert</strong><br />
+                            Body: {"name": "...", "brand": "...", "price":
+                            899.99, "stock_quantity": 15, "color": "...",
+                            "storage": "..."}
+                        </p>
+
+                        <h3 style="margin-top: 20px">✏️ UPDATE Operation</h3>
+                        <p
+                            style="
+                                padding: 12px;
+                                background: white;
+                                border-radius: 6px;
+                                border: 2px solid #e0e0e0;
+                                color: #333;
+                            "
+                        >
+                            <strong>PUT /phones/:id</strong><br />
+                            Body: {"name": "...", "brand": "...", "price":
+                            899.99, "stock_quantity": 15, "color": "...",
+                            "storage": "..."}
+                        </p>
+
+                        <h3 style="margin-top: 20px">🗑️ DELETE Operation</h3>
+                        <p
+                            style="
+                                padding: 12px;
+                                background: white;
+                                border-radius: 6px;
+                                border: 2px solid #e0e0e0;
+                                color: #333;
+                            "
+                        >
+                            <strong>DELETE /phones/:id</strong>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="app.js"></script>
+    </body>
+</html>
