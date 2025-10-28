@@ -12,3 +12,14 @@ export async function getAllPhones(req, res) {
     </ul>
   `);
 }
+export async function searchPhones(req, res) {
+  const { brand, minPrice, maxPrice, storage } = req.query;
+  const phones = await queries.searchPhones(brand, minPrice, maxPrice, storage);
+  res.send(`
+    <h1>Search Results</h1>
+    <p>Found ${phones.length} phone(s)</p>
+    <ul>
+      ${phones.map((phone) => `<li>${phone.name} (${phone.brand}) - $${phone.price} - ${phone.storage} - ${phone.color}</li>`).join("")}
+    </ul>
+  `);
+}
