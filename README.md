@@ -58,13 +58,6 @@ Perfect for:
 - Filter by storage capacity
 - Combine multiple filters
 
-### 🎨 Interactive Web Interface
-- Beautiful gradient design
-- Tab-based navigation
-- Real-time feedback
-- Form validation
-- Quick edit/delete actions
-- Responsive design
 
 ### 🛡️ Best Practices
 - RESTful API design
@@ -94,15 +87,6 @@ Perfect for:
 - **Nodemon** - Auto-restart on file changes
 
 ---
-
-## 📦 Installation
-
-### Prerequisites
-
-Before you begin, ensure you have the following installed:
-- **Node.js** (v18 or higher) - [Download](https://nodejs.org/)
-- **PostgreSQL** (v14 or higher) - [Download](https://www.postgresql.org/download/)
-- **npm** or **yarn** - Package manager
 
 ### Steps
 
@@ -197,23 +181,10 @@ npm run dev
 
 The server will start on `http://localhost:3000`
 
-### Access the Web Interface
-
-Open your browser and navigate to:
-```
-http://localhost:3000/test.html
-```
-
-This gives you a beautiful interface with all CRUD operations!
-
 ---
 
 ## 📚 API Documentation
 
-### Base URL
-```
-http://localhost:3000
-```
 
 ### Endpoints Overview
 
@@ -328,7 +299,7 @@ For complete API documentation, see [API_DOCUMENTATION.md](API_DOCUMENTATION.md)
 ### Method 1: Web Interface (Recommended)
 
 1. Start the server: `npm run dev`
-2. Open browser: `http://localhost:3000/test.html`
+2. Open browser: `http://localhost:3000/`
 3. Use the tabs to test each operation:
    - ➕ Create
    - 📋 Read All
@@ -370,9 +341,6 @@ curl -X PUT http://localhost:3000/phones/1 \
 curl -X DELETE http://localhost:3000/phones/1
 ```
 
-### Method 4: Postman or Insomnia
-
-Import the endpoints and test with a REST client for more advanced testing.
 
 ---
 
